@@ -7,8 +7,6 @@
     "body-parser": "*",
     "express": "4.*",
     "formidable": "*",
-    "ibmbluemix": "*",
-    "ibmdata": "*",
     "multer": "^1.0.6",
     "string": "^3.3.0",
     "watson-developer-cloud": "*"
