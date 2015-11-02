@@ -7,6 +7,7 @@ var express = require( 'express' ),
     app = express();
 
 if(process.env.VCAP_SERVICES) {
+    var vcapServices = JSON.parse(process.env.VCAP_SERVICES);
     var visual_recognition = watson.visual_recognition( {
         username: vcapServices.visual_recognition[0].credentials.username,
         password: vcapServices.visual_recognition[0].credentials.password,
