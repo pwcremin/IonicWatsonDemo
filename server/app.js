@@ -110,15 +110,15 @@ router.route( '/vision/uploadpic' )
 
     } );
 
-router.route( '/vision/url' )
+router.route( '/vision/faces' )
     .post( function ( req, result )
     {
-        console.log( 'vision/uploadpic' );
+        console.log( 'vision/faces' );
 
         var form = new formidable.IncomingForm();
         form.keepExtensions = true;
 
-        form.parse( req, function ( err, fields, files )
+        form.parse( req, function ( err, fields )
         {
             alchemy_vision.recognizeFaces( {url: fields.url}, function (err, res) {
                 if (err)
