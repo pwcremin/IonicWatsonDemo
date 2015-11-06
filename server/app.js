@@ -6,9 +6,6 @@ var express = require( 'express' ),
     router = express.Router(),
     app = express();
 
-//Create the AlchemyAPI object
-var AlchemyAPI = require('./alchemyapi');
-
 if(process.env.VCAP_SERVICES) {
     var vcapServices = JSON.parse(process.env.VCAP_SERVICES);
 
@@ -23,8 +20,6 @@ if(process.env.VCAP_SERVICES) {
         api_key: vcapServices.alchemy_api[0].credentials.apikey,
         version: 'v1'
     } );
-
-    var alchemyapi = new AlchemyAPI(vcapServices.alchemy_api[0].credentials.apikey);
 }
 else
 {
@@ -43,8 +38,6 @@ else
         use_vcap_services: false,
         version: 'v1'
     } );
-
-    var alchemyapi = new AlchemyAPI("be7dcd293c53db3ae8b9f44e9ee87efc248bb34a");
 }
 
 router.route( '/' )
