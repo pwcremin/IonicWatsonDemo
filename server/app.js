@@ -41,12 +41,6 @@ else
 router.route( '/' )
     .get( function ( req, res )
     {
-        res.sendfile( 'public/index.html' );
-    } );
-
-router.route( '/desktop' )
-    .get( function ( req, res )
-    {
         res.sendfile( 'public/desktop.html' );
     } );
 
