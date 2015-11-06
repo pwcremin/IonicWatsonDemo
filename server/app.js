@@ -6,6 +6,9 @@ var express = require( 'express' ),
     router = express.Router(),
     app = express();
 
+//Create the AlchemyAPI object
+var AlchemyAPI = require('./alchemyapi');
+
 if(process.env.VCAP_SERVICES) {
     var vcapServices = JSON.parse(process.env.VCAP_SERVICES);
 
@@ -20,6 +23,8 @@ if(process.env.VCAP_SERVICES) {
         api_key: vcapServices.alchemy_api[0].credentials.apikey,
         version: 'v1'
     } );
+
+    var alchemyapi = new AlchemyAPI(vcapServices.alchemy_api[0].credentials.apikey);
 }
 else
 {
@@ -29,13 +34,17 @@ else
     var visual_recognition = watson.visual_recognition( {
         username: '5530b1d8-1d00-477f-96a4-c56cf77c3b3d',
         password: 'uO3QkTSnSErg',
+        use_vcap_services: false,
         version: 'v1'
     } );
 
     var alchemy_vision = watson.alchemy_vision( {
         api_key: 'be7dcd293c53db3ae8b9f44e9ee87efc248bb34a',
+        use_vcap_services: false,
         version: 'v1'
     } );
+
+    var alchemyapi = new AlchemyAPI("be7dcd293c53db3ae8b9f44e9ee87efc248bb34a");
 }
 
 router.route( '/' )
@@ -108,6 +117,25 @@ router.route( '/vision/uploadpic' )
 
     } );
 
+router.route( '/vision/url' )
+    .post( function ( req, result )
+    {
+        console.log( 'vision/uploadpic' );
+
+        var form = new formidable.IncomingForm();
+        form.keepExtensions = true;
+
+        form.parse( req, function ( err, fields, files )
+        {
+            alchemy_vision.recognizeFaces( {url: fields.url}, function (err, res) {
+                if (err)
+                    result.json('error:', err);
+                else
+                    result.json(res.imageFaces)
+            });
+        } );
+
+    } );
 
 app.use( '/', router );
 
